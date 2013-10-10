@@ -2,8 +2,8 @@
 package main
 
 import (
-	"demo/core"
 	"fmt"
+	"github.com/wangxuesong/demo/core"
 	"time"
 )
 
