@@ -1,9 +1,9 @@
 // Bootstrap
-package plugin
+package biz
 
 import (
 	core "demo/core"
-	"fmt"
+	"time"
 )
 
 type Bootstrap struct {
@@ -16,14 +16,12 @@ func NewBootstrap() *Bootstrap {
 }
 
 func (p *Bootstrap) Init(d core.Router) {
-	//p.host = d.Channel
 	p.channel = make(chan interface{})
-	r := d
-	r.Register("/bootstrap", p.channel)
 	p.disp = d
 }
 
 func (p *Bootstrap) Run() {
-	m := <-p.channel
-	fmt.Printf("%d\n", m)
+	p.disp.Fire(ServiceStatusKey, StatusBootStart)
+	time.Sleep(1 * time.Second)
+	p.disp.Fire(ServiceStatusKey, StatusBootEnd)
 }

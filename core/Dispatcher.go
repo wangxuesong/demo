@@ -5,25 +5,25 @@ import (
 	"fmt"
 )
 
-type Message struct {
-	Key   string
-	Value interface{}
-}
-
 type Router interface {
 	Register(string, chan interface{})
 	Unregister(key string, c chan interface{})
 	Fire(key string, value interface{})
 }
 
+type message struct {
+	Key   string
+	Value interface{}
+}
+
 type Dispatcher struct {
-	Channel chan Message
+	Channel chan message
 	events  map[string]chan interface{}
 }
 
 func NewDispatcher() *Dispatcher {
 	return &Dispatcher{
-		Channel: make(chan Message),
+		Channel: make(chan message),
 		events:  make(map[string]chan interface{}),
 	}
 }
@@ -39,7 +39,7 @@ func (d *Dispatcher) Unregister(key string, c chan interface{}) {
 }
 
 func (d *Dispatcher) Fire(key string, value interface{}) {
-	m := Message{key, value}
+	m := message{key, value}
 	d.Channel <- m
 }
 
@@ -58,6 +58,6 @@ func (d *Dispatcher) Run() {
 }
 
 func (d *Dispatcher) Stop() {
-	m := Message{Key: ".stop", Value: 1}
+	m := message{Key: ".stop", Value: 1}
 	d.Channel <- m
 }
