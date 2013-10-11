@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"github.com/wangxuesong/demo/core"
+	plugins "github.com/wangxuesong/demo/plugin"
 	"time"
 )
 
@@ -86,6 +87,10 @@ func main() {
 
 	dispatcher := core.NewDispatcher()
 	go dispatcher.Run()
+	boot := plugins.NewBootstrap()
+	boot.Init(dispatcher)
+	go boot.Run()
+	dispatcher.Fire("/bootstrap", 1)
 	time.Sleep(1 * time.Second)
 	dispatcher.Stop()
 	time.Sleep(1 * time.Second)

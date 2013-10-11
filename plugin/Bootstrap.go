@@ -2,22 +2,28 @@
 package plugin
 
 import (
-	"demo/core"
+	"fmt"
+	core "github.com/wangxuesong/demo/core"
 )
 
 type Bootstrap struct {
-	host    chan core.Message
 	channel chan interface{}
-	disp    *core.Dispatcher
+	disp    core.Router
 }
 
 func NewBootstrap() *Bootstrap {
 	return new(Bootstrap)
 }
 
-func (p *Bootstrap) Init(d *core.Dispatcher) {
-	p.host = d.Channel
+func (p *Bootstrap) Init(d core.Router) {
+	//p.host = d.Channel
 	p.channel = make(chan interface{})
-	d.Register("/bootstrap", p.channel)
+	r := d
+	r.Register("/bootstrap", p.channel)
 	p.disp = d
+}
+
+func (p *Bootstrap) Run() {
+	m := <-p.channel
+	fmt.Printf("%d\n", m)
 }

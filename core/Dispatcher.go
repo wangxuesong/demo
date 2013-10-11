@@ -10,6 +10,12 @@ type Message struct {
 	Value interface{}
 }
 
+type Router interface {
+	Register(string, chan interface{})
+	Unregister(key string, c chan interface{})
+	Fire(key string, value interface{})
+}
+
 type Dispatcher struct {
 	Channel chan Message
 	events  map[string]chan interface{}
@@ -18,6 +24,7 @@ type Dispatcher struct {
 func NewDispatcher() *Dispatcher {
 	return &Dispatcher{
 		Channel: make(chan Message),
+		events:  make(map[string]chan interface{}),
 	}
 }
 
@@ -29,6 +36,11 @@ func (d *Dispatcher) Unregister(key string, c chan interface{}) {
 	if _, ok := d.events[key]; ok {
 		delete(d.events, key)
 	}
+}
+
+func (d *Dispatcher) Fire(key string, value interface{}) {
+	m := Message{key, value}
+	d.Channel <- m
 }
 
 func (d *Dispatcher) Run() {

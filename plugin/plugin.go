@@ -2,9 +2,9 @@
 package plugin
 
 import (
-	"demo/core"
+	"github.com/wangxuesong/demo/core"
 )
 
 type Plugin interface {
-	Init(d *core.Dispatcher)
+	Init(d core.Router)
 }
