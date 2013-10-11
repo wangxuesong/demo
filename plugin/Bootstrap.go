@@ -2,8 +2,8 @@
 package plugin
 
 import (
+	core "demo/core"
 	"fmt"
-	core "github.com/wangxuesong/demo/core"
 )
 
 type Bootstrap struct {

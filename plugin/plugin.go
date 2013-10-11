@@ -2,7 +2,7 @@
 package plugin
 
 import (
-	"github.com/wangxuesong/demo/core"
+	"demo/core"
 )
 
 type Plugin interface {

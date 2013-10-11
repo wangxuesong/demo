@@ -2,9 +2,9 @@
 package main
 
 import (
+	"demo/core"
+	plugins "demo/plugin"
 	"fmt"
-	"github.com/wangxuesong/demo/core"
-	plugins "github.com/wangxuesong/demo/plugin"
 	"time"
 )
 
