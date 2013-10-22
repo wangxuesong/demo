@@ -2,7 +2,7 @@
 package main
 
 import (
-	plugins "demo/biz"
+	"demo/biz"
 	"demo/core"
 	"fmt"
 	"time"
@@ -15,9 +15,9 @@ func main() {
 	go dispatcher.Run()
 
 	event := make(chan interface{})
-	dispatcher.Register(plugins.ServiceStatusKey, event)
+	dispatcher.Register(biz.ServiceStatusKey, event)
 
-	boot := plugins.NewBootstrap()
+	boot := biz.NewBootstrap()
 	boot.Init(dispatcher)
 	go boot.Run()
 
@@ -27,9 +27,9 @@ func main() {
 			v = <-event
 
 			switch v {
-			case plugins.StatusBootStart:
+			case biz.StatusBootStart:
 				fmt.Println("Boot Start")
-			case plugins.StatusBootEnd:
+			case biz.StatusBootEnd:
 				fmt.Println("Boot End")
 				return
 			default:
